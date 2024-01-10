@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { useFilterContext } from '@/contexts/filter-context'
+import { useFilterContext } from '@/components/Providers/FilterContextProvider'
 import { CategoryFilterType } from '@/schemas/Category/CategoryFilter.type'
 import { FilterCategoryType } from './Filter.type'
 
@@ -11,37 +11,37 @@ type BaseFilterData = {
 }
 
 const FilterList = ({ filterData }: { filterData: CategoryFilterType }) => {
-  // const { filter, setFilter } = useFilterContext()
+  const { filter, setFilter } = useFilterContext()
 
-  // const handleFilterClick = (category: BaseFilterData, tag: BaseFilterData): void => {
-  //   const currentFilter: FilterCategoryType = Object.assign({}, filter)
-  //   const indexOfTag = currentFilter?.[category.id]?.findIndex(({ tagId: id }) => id === tag.id)
+  const handleFilterClick = (category: BaseFilterData, tag: BaseFilterData): void => {
+    const currentFilter: FilterCategoryType = Object.assign({}, filter)
+    const indexOfTag = currentFilter?.[category.id]?.findIndex(({ tagId: id }) => id === tag.id)
 
-  //   if (indexOfTag === undefined || indexOfTag === -1) {
-  //     let filtersCategory = Array.isArray(currentFilter?.[category.id]) ? currentFilter[category.id] : []
-  //     if (filtersCategory === undefined) {
-  //       filtersCategory = []
-  //     }
-  //     setFilter({
-  //       ...currentFilter,
-  //       [category.id]: [...filtersCategory, { tagId: tag.id, tagName: tag.name }],
-  //     })
-  //   }
-  // }
+    if (indexOfTag === undefined || indexOfTag === -1) {
+      let filtersCategory = Array.isArray(currentFilter?.[category.id]) ? currentFilter[category.id] : []
+      if (filtersCategory === undefined) {
+        filtersCategory = []
+      }
+      setFilter({
+        ...currentFilter,
+        [category.id]: [...filtersCategory, { tagId: tag.id, tagName: tag.name }],
+      })
+    }
+  }
 
-  // const handleFilterClose = (categoryId: number, tagId: number): void => {
-  //   const currentFilter = Object.assign({}, filter)
-  //   const indexOfTag = currentFilter?.[categoryId]?.findIndex(({ tagId: id }) => id === tagId)
-  //   if (indexOfTag !== undefined) currentFilter[categoryId]?.splice(indexOfTag, 1)
-  //   setFilter(currentFilter)
-  // }
+  const handleFilterClose = (categoryId: number, tagId: number): void => {
+    const currentFilter = Object.assign({}, filter)
+    const indexOfTag = currentFilter?.[categoryId]?.findIndex(({ tagId: id }) => id === tagId)
+    if (indexOfTag !== undefined) currentFilter[categoryId]?.splice(indexOfTag, 1)
+    setFilter(currentFilter)
+  }
 
   return (
     <section>
       <div className='dropdown'>
         <div tabIndex={0} role='button' className='btn btn-accent m-1'>
           {filterData.name} ▾
-          {/* {filter?.[filterData.id]?.map(({ tagId, tagName }) => (
+          {filter?.[filterData.id]?.map(({ tagId, tagName }) => (
             <div
               className='badge badge-ghost gap-2'
               key={tagId}
@@ -59,15 +59,15 @@ const FilterList = ({ filterData }: { filterData: CategoryFilterType }) => {
               </button>
               {tagName}
             </div>
-          ))} */}
+          ))}
         </div>
         <ul tabIndex={0} className='menu dropdown-content z-[1] w-52 rounded-box bg-base-100 p-2 shadow'>
           {filterData.categoryTags.map((tag) => (
             <li key={tag.id}>
               <button
-              // onClick={() =>
-              //   handleFilterClick({ id: filterData.id, name: filterData.name }, { id: tag.id, name: tag.name })
-              // }
+                onClick={() =>
+                  handleFilterClick({ id: filterData.id, name: filterData.name }, { id: tag.id, name: tag.name })
+                }
               >
                 {tag.name}
               </button>
