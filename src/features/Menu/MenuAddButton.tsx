@@ -1,27 +1,24 @@
-'use client'
-import React, { useState } from 'react'
-import MenuForm from './MenuForm'
+import React from "react"
 
 const AddMenu = () => {
-
-  const [isMenuFormOpen, setMenuFormOpen] = useState<boolean>(false)
-
-  const handleMenuAddClick = () => {
-    setMenuFormOpen(true)
-  }
-
-  const handleCloseMenuModal = () => {
-    setMenuFormOpen(false)
-  }
-
   return (
     <>
-      <button className="mr-5" onClick={handleMenuAddClick}>
-        <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-          <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 1v16M1 9h16"/>
-        </svg>
-      </button>
-      <MenuForm isOpen={isMenuFormOpen} onClose={handleCloseMenuModal} />
+      <div className="dropdown dropdown-end ml-4">
+        <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+          <span className="h-6 w-6 text-2xl text-gray-800 dark:text-white">➕</span>
+        </label>
+        <ul tabIndex={0} className="menu menu-compact dropdown-content bg-base-100 rounded-box mt-3 w-52 p-2 shadow">
+          <li className="justify-between">
+            <a href="#">Menu</a>
+          </li>
+          <li className="justify-between">
+            <a href="#">Ingredient</a>
+          </li>
+          <li className="justify-between">
+            <a href="#">Meal</a>
+          </li>
+        </ul>
+      </div>
     </>
   )
 }

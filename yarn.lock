@@ -4415,6 +4415,37 @@
     lodash.merge "^4.6.2"
     postcss-selector-parser "6.0.10"
 
+"@tanstack/eslint-plugin-query@^5.17.7":
+  version "5.17.7"
+  resolved "https://registry.yarnpkg.com/@tanstack/eslint-plugin-query/-/eslint-plugin-query-5.17.7.tgz#7fc4863b4a38b37c8dd9877e020bd43d91d1338e"
+  integrity sha512-RpKZXIuplRrUZLqqh+jTM1yJP8/Ck21FpaSB5uGyc9LY8LNwxC8AwgaRAXVOZzKVeQMunnt3HrK83HME+7jnGw==
+  dependencies:
+    "@typescript-eslint/utils" "^5.62.0"
+
+"@tanstack/query-core@5.17.9":
+  version "5.17.9"
+  resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-5.17.9.tgz#1dac85c7c674bdfd132fe7cd5cb898921000bdcf"
+  integrity sha512-8xcvpWIPaRMDNLMvG9ugcUJMgFK316ZsqkPPbsI+TMZsb10N9jk0B6XgPk4/kgWC2ziHyWR7n7wUhxmD0pChQw==
+
+"@tanstack/query-devtools@5.17.7":
+  version "5.17.7"
+  resolved "https://registry.yarnpkg.com/@tanstack/query-devtools/-/query-devtools-5.17.7.tgz#9f9e44a32d08ecd5c9fe3ede62a114d6d6e240d5"
+  integrity sha512-TfgvOqza5K7Sk6slxqkRIvXlEJoUoPSsGGwpuYSrpqgSwLSSvPPpZhq7hv7hcY5IvRoTNGoq6+MT01C/jILqoQ==
+
+"@tanstack/react-query-devtools@^5.17.9":
+  version "5.17.9"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-query-devtools/-/react-query-devtools-5.17.9.tgz#bff872dbc1d1cdf1438e95393263e5d4addca535"
+  integrity sha512-1viWP/jlO0LaeCdtTFqtF1k2RfM3KVpvwVffWv+PMNkS2u4s8YGUM17r3p82udbF9BY1mE7aHqQ3MM1errF5lQ==
+  dependencies:
+    "@tanstack/query-devtools" "5.17.7"
+
+"@tanstack/react-query@^5.17.9":
+  version "5.17.9"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-query/-/react-query-5.17.9.tgz#74826465c1b2ecde17c6d2f1d03f10b611ac2363"
+  integrity sha512-M5E9gwUq1Stby/pdlYjBlL24euIVuGbWKIFCbtnQxSdXI4PgzjTSdXdV3QE6fc+itF+TUvX/JPTKIwq8yuBXcg==
+  dependencies:
+    "@tanstack/query-core" "5.17.9"
+
 "@testing-library/dom@^9.0.0":
   version "9.3.3"
   resolved "https://registry.yarnpkg.com/@testing-library/dom/-/dom-9.3.3.tgz#108c23a5b0ef51121c26ae92eb3179416b0434f5"
@@ -5048,7 +5079,7 @@
     semver "^7.5.4"
     ts-api-utils "^1.0.1"
 
-"@typescript-eslint/utils@5.62.0", "@typescript-eslint/utils@^5.45.0", "@typescript-eslint/utils@^5.58.0":
+"@typescript-eslint/utils@5.62.0", "@typescript-eslint/utils@^5.45.0", "@typescript-eslint/utils@^5.58.0", "@typescript-eslint/utils@^5.62.0":
   version "5.62.0"
   resolved "https://registry.yarnpkg.com/@typescript-eslint/utils/-/utils-5.62.0.tgz#141e809c71636e4a75daa39faed2fb5f4b10df86"
   integrity sha512-n8oxjeb5aIbPFEtmQxQYOLI0i9n5ySBEY/ZEHHZqKQSFnxio1rv6dthascc9dLuwrL0RC5mPCxB7vnAVGAYWAQ==
@@ -5819,6 +5850,15 @@ axios@^0.21.1:
   integrity sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==
   dependencies:
     follow-redirects "^1.14.0"
+
+axios@^1.6.5:
+  version "1.6.5"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-1.6.5.tgz#2c090da14aeeab3770ad30c3a1461bc970fb0cd8"
+  integrity sha512-Ii012v05KEVuUoFWmMW/UQv9aRIc3ZwkWDcM+h5Il8izZCtRVpDUfwpoFf7eOtajT3QiGR4yDUx7lPqHJULgbg==
+  dependencies:
+    follow-redirects "^1.15.4"
+    form-data "^4.0.0"
+    proxy-from-env "^1.1.0"
 
 axobject-query@^3.1.1:
   version "3.2.1"
@@ -8664,6 +8704,11 @@ follow-redirects@^1.14.0:
   version "1.15.3"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.15.3.tgz#fe2f3ef2690afce7e82ed0b44db08165b207123a"
   integrity sha512-1VzOtuEM8pC9SFU1E+8KfTjZyMztRsgEfwQl44z8A25uy13jSzTj6dyK2Df52iV0vgHCfBwLhDWevLn95w5v6Q==
+
+follow-redirects@^1.15.4:
+  version "1.15.4"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.15.4.tgz#cdc7d308bf6493126b17ea2191ea0ccf3e535adf"
+  integrity sha512-Cr4D/5wlrb0z9dgERpUL3LrmPKVDsETIJhaCMeDfuFYcqa5bldGV6wBsAN6X/vxlXQtFBMrXdXxdL8CbDTGniw==
 
 for-each@^0.3.3:
   version "0.3.3"
@@ -13001,7 +13046,7 @@ proxy-addr@~2.0.7:
     forwarded "0.2.0"
     ipaddr.js "1.9.1"
 
-proxy-from-env@^1.0.0:
+proxy-from-env@^1.0.0, proxy-from-env@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/proxy-from-env/-/proxy-from-env-1.1.0.tgz#e102f16ca355424865755d2c9e8ea4f24d58c3e2"
   integrity sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg==

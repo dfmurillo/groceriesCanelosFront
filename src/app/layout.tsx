@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import "@/assets/tailwind.css"
+import '@/assets/tailwind.css'
+import TanstackProvider from '@/components/Providers/TanstackProvider'
 import Footer from '@/containers/Footer'
-
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -13,10 +13,12 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" data-theme="bumblebee">
+    <html lang='en' data-theme='bumblebee'>
       <body className={inter.className}>
-        {children}
-        <Footer />
+        <TanstackProvider>
+          {children}
+          <Footer />
+        </TanstackProvider>
       </body>
     </html>
   )
