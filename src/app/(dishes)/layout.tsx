@@ -1,6 +1,7 @@
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query'
 import React from 'react'
 import HeaderMenu from '@/components/HeaderMenu/HeaderMenu'
+import FilterContextProvider from '@/components/Providers/FilterContextProvider'
 import Header from '@/containers/Header'
 import AddMenu from '@/features/Menu/MenuAddButton'
 import { getCategoriesTags } from '@/server/actions'
@@ -14,15 +15,17 @@ const DishesLayout = async ({ children }: { children: React.ReactNode }) => {
 
   return (
     <>
-      <HydrationBoundary state={dehydrate(queryClient)}>
-        <Header pageTitle='Menus'>
-          <div className='navbar-end flex space-x-3'>
-            <HeaderMenu />
-            <AddMenu />
-          </div>
-        </Header>
-        {children}
-      </HydrationBoundary>
+      <FilterContextProvider>
+        <HydrationBoundary state={dehydrate(queryClient)}>
+          <Header pageTitle='Menus'>
+            <div className='navbar-end flex space-x-3'>
+              <HeaderMenu />
+              <AddMenu />
+            </div>
+          </Header>
+          {children}
+        </HydrationBoundary>
+      </FilterContextProvider>
     </>
   )
 }
