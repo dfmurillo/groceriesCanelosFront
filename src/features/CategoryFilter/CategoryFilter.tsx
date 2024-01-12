@@ -3,7 +3,7 @@
 import { useQuery } from '@tanstack/react-query'
 import React from 'react'
 import FilterList from '@/components/Filter/FilterList'
-import { getCategoriesTags } from '@/server/actions'
+import { getCategoriesTags } from '@/server/categoryActions'
 
 const CategoryFilter = () => {
   const {

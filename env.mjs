@@ -10,9 +10,11 @@ export const env = createEnv({
   },
   client: {
     NEXT_PUBLIC_GROCERIES_BASE_PATH: z.string().url(),
+    NEXT_PUBLIC_TOASTER_TIME: z.number(),
   },
   runtimeEnv: {
     ANALYZE: process.env.ANALYZE,
     NEXT_PUBLIC_GROCERIES_BASE_PATH: process.env.NEXT_PUBLIC_GROCERIES_BASE_PATH,
+    NEXT_PUBLIC_TOASTER_TIME: +process.env.NEXT_PUBLIC_TOASTER_TIME,
   },
 })

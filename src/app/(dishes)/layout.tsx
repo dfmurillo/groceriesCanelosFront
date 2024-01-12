@@ -4,7 +4,7 @@ import HeaderMenu from '@/components/HeaderMenu/HeaderMenu'
 import FilterContextProvider from '@/components/Providers/FilterContextProvider'
 import Header from '@/containers/Header'
 import AddMenu from '@/features/Menu/MenuAddButton'
-import { getCategoriesTags } from '@/server/actions'
+import { getCategoriesTags } from '@/server/categoryActions'
 
 const DishesLayout = async ({ children }: { children: React.ReactNode }) => {
   const queryClient = new QueryClient()
