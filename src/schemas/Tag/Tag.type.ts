@@ -3,3 +3,4 @@ import { tagCreateSchema, tagSchema } from "./Tag.schema";
 
 export type TagType = z.infer<typeof tagSchema>
 export type TagCreateType = z.infer<typeof tagCreateSchema>
+export type TagUpdateType = z.infer<typeof tagSchema>

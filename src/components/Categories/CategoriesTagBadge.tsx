@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { SyntheticEvent, useEffect, useRef, useState } from 'react'
 import { CategoryType } from '@/schemas/Category/Category.type'
 import { TagType } from '@/schemas/Tag/Tag.type'
-import { deleteTag } from '@/server/tagActions'
+import { deleteTag, updateTag } from '@/server/tagActions'
 import { env } from 'env.mjs'
 import ActionButton from './ActionButton'
 import AlertDelete from '../Alert/AlertDelete'
@@ -53,10 +53,40 @@ const CategoriesTagBadge = ({ tag, categoryId }: CategoriesTagBadgePropsType) =>
     },
   })
 
+  const updateTagMutation = useMutation({
+    mutationFn: updateTag,
+    onSuccess: (data, updatedTag) => {
+      queryClient.setQueryData(['categories'], (oldCategories: CategoryType[]) =>
+        oldCategories.map((category) => {
+          let currentCategory = structuredClone(category)
+          if (currentCategory.id === categoryId) {
+            const categoryTags = currentCategory.categoryTags?.map(({ id, name }) => {
+              if (updatedTag.id === id) {
+                return { id, name: updatedTag.name }
+              }
+
+              return { id, name }
+            })
+            currentCategory = { ...currentCategory, categoryTags }
+          }
+          return currentCategory
+        })
+      )
+      queryClient.invalidateQueries({
+        queryKey: ['categories'],
+      })
+      setToastAlert({ ...toastAlert, show: true, message: `The tag was updated` })
+      setTimeout(() => {
+        setToastAlert(defaultToastAlertValues)
+      }, env.NEXT_PUBLIC_TOASTER_TIME)
+    },
+  })
+
   const handleFormSubmit = async (event: SyntheticEvent) => {
     event.preventDefault()
     const name = nameRef.current?.value
     if (name) {
+      updateTagMutation.mutate({ id: tag.id, name })
     }
   }
 
