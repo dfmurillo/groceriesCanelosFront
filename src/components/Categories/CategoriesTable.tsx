@@ -26,10 +26,8 @@ const CategoriesTable = () => {
           {/* head */}
           <thead>
             <tr>
-              <th></th>
               <th>Category</th>
               <th>Tags</th>
-              <th></th>
             </tr>
           </thead>
           <tbody>

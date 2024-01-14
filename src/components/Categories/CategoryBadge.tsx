@@ -1,15 +1,14 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { SyntheticEvent, useEffect, useRef, useState } from 'react'
 import { CategoryType } from '@/schemas/Category/Category.type'
-import { TagType } from '@/schemas/Tag/Tag.type'
-import { deleteTag, updateTag } from '@/server/tagActions'
+import { deleteCategory, updateCategory } from '@/server/categoryActions'
 import { env } from 'env.mjs'
 import ActionButton from './ActionButton'
 import AlertDelete from '../Alert/AlertDelete'
 
 type CategoriesTagBadgePropsType = {
-  tag: TagType
   categoryId: number
+  categoryName: string
 }
 
 type ToastAlertStateType = {
@@ -18,10 +17,10 @@ type ToastAlertStateType = {
   alertType: 'success' | 'error'
 }
 
-const CategoriesTagBadge = ({ tag, categoryId }: CategoriesTagBadgePropsType) => {
+const CategoryBadge = ({ categoryId, categoryName }: CategoriesTagBadgePropsType) => {
   const defaultToastAlertValues = {
     show: false,
-    message: 'The tag was saved',
+    message: 'The category was saved',
     alertType: 'success',
   } as ToastAlertStateType
 
@@ -30,52 +29,35 @@ const CategoriesTagBadge = ({ tag, categoryId }: CategoriesTagBadgePropsType) =>
   const [showDeleteAlert, setShowDeleteAlert] = useState(false)
 
   const queryClient = useQueryClient()
-  const deleteTagMutation = useMutation({
-    mutationFn: deleteTag,
-    onSuccess: (data, deletedTagId) => {
+  const deleteCategoryMutation = useMutation({
+    mutationFn: deleteCategory,
+    onSuccess: (data, deletedCategoryId) => {
       queryClient.setQueryData(['categories'], (oldCategories: CategoryType[]) =>
-        oldCategories.map((category) => {
-          let currentCategory = structuredClone(category)
-          if (currentCategory.id === categoryId) {
-            const categoryTags = currentCategory.categoryTags?.filter(({ id }) => id !== deletedTagId)
-            currentCategory = { ...currentCategory, categoryTags }
-          }
-          return currentCategory
-        })
+        oldCategories.filter(({ id }) => id !== deletedCategoryId)
       )
       queryClient.invalidateQueries({
         queryKey: ['categories'],
       })
-      setToastAlert({ ...toastAlert, show: true, message: `The tag was deleted` })
+      setToastAlert({ ...toastAlert, show: true, message: `The category was deleted` })
       setTimeout(() => {
         setToastAlert(defaultToastAlertValues)
       }, env.NEXT_PUBLIC_TOASTER_TIME)
     },
   })
 
-  const updateTagMutation = useMutation({
-    mutationFn: updateTag,
-    onSuccess: (data, updatedTag) => {
+  const updateCategoryMutation = useMutation({
+    mutationFn: updateCategory,
+    onSuccess: (data, updatedCategory) => {
       queryClient.setQueryData(['categories'], (oldCategories: CategoryType[]) =>
         oldCategories.map((category) => {
-          let currentCategory = structuredClone(category)
-          if (currentCategory.id === categoryId) {
-            const categoryTags = currentCategory.categoryTags?.map(({ id, name }) => {
-              if (updatedTag.id === id) {
-                return { id, name: updatedTag.name }
-              }
-
-              return { id, name }
-            })
-            currentCategory = { ...currentCategory, categoryTags }
-          }
-          return currentCategory
+          let newName = ''
+          return { ...category, name: categoryId === updatedCategory.id ? newName : categoryName }
         })
       )
       queryClient.invalidateQueries({
         queryKey: ['categories'],
       })
-      setToastAlert({ ...toastAlert, show: true, message: `The tag was updated` })
+      setToastAlert({ ...toastAlert, show: true, message: `The category was updated` })
       setTimeout(() => {
         setToastAlert(defaultToastAlertValues)
       }, env.NEXT_PUBLIC_TOASTER_TIME)
@@ -86,7 +68,7 @@ const CategoriesTagBadge = ({ tag, categoryId }: CategoriesTagBadgePropsType) =>
     event.preventDefault()
     const name = nameRef.current?.value
     if (name) {
-      updateTagMutation.mutate({ id: tag.id, name })
+      updateCategoryMutation.mutate({ id: categoryId, name })
     }
   }
 
@@ -96,23 +78,23 @@ const CategoriesTagBadge = ({ tag, categoryId }: CategoriesTagBadgePropsType) =>
   }
 
   const handleDeleteTag = async () => {
-    await deleteTagMutation.mutate(tag.id)
+    await deleteCategoryMutation.mutate(categoryId)
   }
 
   useEffect(() => {
     if (nameRef.current) {
-      nameRef.current.value = tag.name
+      nameRef.current.value = categoryName
       nameRef.current.focus()
     }
   })
 
   return (
     <>
-      <ActionButton textButton={tag.name} buttonPrefixIcon='🔖' buttonSize='xs' buttonColor='ghost'>
+      <ActionButton textButton={categoryName} buttonPrefixIcon='📋' buttonSize='xs' buttonColor='ghost'>
         <form onSubmit={handleFormSubmit} className='mb-3'>
           <label htmlFor='name'>
             <div className='label'>
-              <span className='label-text'>Tag Name:</span>
+              <span className='label-text'>Category Name:</span>
             </div>
             <input ref={nameRef} type='text' placeholder='name' className='input input-bordered w-full max-w-xs' />
           </label>
@@ -144,4 +126,4 @@ const CategoriesTagBadge = ({ tag, categoryId }: CategoriesTagBadgePropsType) =>
   )
 }
 
-export default CategoriesTagBadge
+export default CategoryBadge
