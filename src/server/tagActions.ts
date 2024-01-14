@@ -1,16 +1,15 @@
-import axios from "axios";
-import { tagSchema } from "@/schemas/Tag/Tag.schema";
-import { TagCreateType, TagType, TagUpdateType } from "@/schemas/Tag/Tag.type";
-import { env } from "env.mjs";
+import axios from 'axios'
+import { tagSchema } from '@/schemas/Tag/Tag.schema'
+import { TagCreateType, TagType, TagUpdateType } from '@/schemas/Tag/Tag.type'
+import { env } from 'env.mjs'
 
 const areTags = (result: unknown): result is TagType[] => {
-  if (!Array.isArray(result))
-    return false
+  if (!Array.isArray(result)) return false
 
   let isValidTag = true
   for (const possibleTag of result) {
     const validResult = tagSchema.safeParse(possibleTag)
-    if(!validResult.success) isValidTag = false
+    if (!validResult.success) isValidTag = false
   }
 
   return isValidTag

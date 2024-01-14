@@ -3,6 +3,6 @@ export type FilterCategoryType = {
 }
 
 export type FilterTagsType = {
-  tagId: number,
-  tagName: string,
+  tagId: number
+  tagName: string
 }

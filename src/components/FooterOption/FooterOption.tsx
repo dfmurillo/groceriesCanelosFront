@@ -1,7 +1,7 @@
-"use client"
-import Link from "next/link"
-import { usePathname } from "next/navigation"
-import React, { ReactNode } from "react"
+'use client'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import React, { ReactNode } from 'react'
 
 const FooterOption = ({
   children,
@@ -25,9 +25,9 @@ const FooterOption = ({
     return activePaths.includes(pathname)
   }
   return (
-    <Link href={path} className={isActive() ? "active" : ""}>
+    <Link href={path} className={isActive() ? 'active' : ''}>
       {children}
-      <span className="btm-nav-label">{label}</span>
+      <span className='btm-nav-label'>{label}</span>
     </Link>
   )
 }

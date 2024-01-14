@@ -1,7 +1,7 @@
-import axios from "axios"
-import { categoryGetResponseSchema, categorySchema } from "@/schemas/Category/Category.schema"
-import { CategoryCreateType, CategoryType, CategoryUpdateType } from "@/schemas/Category/Category.type"
-import { env } from "env.mjs"
+import axios from 'axios'
+import { categoryGetResponseSchema, categorySchema } from '@/schemas/Category/Category.schema'
+import { CategoryCreateType, CategoryType, CategoryUpdateType } from '@/schemas/Category/Category.type'
+import { env } from 'env.mjs'
 
 const isCategoriesWithTags = (result: unknown): result is CategoryType[] => {
   const validResult = categoryGetResponseSchema.safeParse(result)
@@ -14,19 +14,19 @@ const isCategory = (result: unknown): result is CategoryType => {
 }
 
 export async function getCategoriesTags(): Promise<CategoryType[]> {
-  try { 
+  try {
     const { data } = await axios.get<CategoryType[]>(`${env.NEXT_PUBLIC_GROCERIES_BASE_PATH}/categories/`)
     if (!isCategoriesWithTags(data)) {
       throw new Error('Wrong Categories with tags response')
     }
-    
+
     return data
   } catch (error) {
     throw new Error((error as Error).message)
   }
 }
 
-export async function deleteCategory(id:number): Promise<void> {
+export async function deleteCategory(id: number): Promise<void> {
   try {
     await axios.delete(`${env.NEXT_PUBLIC_GROCERIES_BASE_PATH}/categories/${id}`)
   } catch (error) {
