@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { useFilterContext } from '@/components/Providers/FilterContextProvider'
-import { CategoryFilterType } from '@/schemas/Category/CategoryFilter.type'
+import { CategoryType } from '@/schemas/Category/Category.type'
 import { FilterCategoryType } from './Filter.type'
 
 type BaseFilterData = {
@@ -10,7 +10,7 @@ type BaseFilterData = {
   name: string
 }
 
-const FilterList = ({ filterData }: { filterData: CategoryFilterType }) => {
+const FilterList = ({ filterData }: { filterData: CategoryType }) => {
   const { filter, setFilter } = useFilterContext()
 
   const handleFilterClick = (category: BaseFilterData, tag: BaseFilterData): void => {
@@ -62,7 +62,7 @@ const FilterList = ({ filterData }: { filterData: CategoryFilterType }) => {
           ))}
         </div>
         <ul tabIndex={0} className='menu dropdown-content z-[1] w-52 rounded-box bg-base-100 p-2 shadow'>
-          {filterData.categoryTags.map((tag) => (
+          {filterData.categoryTags?.map((tag) => (
             <li key={tag.id}>
               <button
                 onClick={() =>

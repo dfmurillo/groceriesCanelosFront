@@ -1,4 +1,4 @@
 export type FooterOptionType = {
-  path: string,
+  path: string
   label: string
 }
