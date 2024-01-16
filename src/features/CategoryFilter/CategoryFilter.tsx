@@ -15,7 +15,7 @@ const CategoryFilter = () => {
     queryFn: getCategoriesTags,
   })
 
-  if (isLoading) return <p>Loading...</p>
+  if (isLoading) return <span className='loading loading-dots loading-md'></span>
   if (error) return <pre>Error: {error.message}</pre>
   if (!categoryFilters) return <></>
 
