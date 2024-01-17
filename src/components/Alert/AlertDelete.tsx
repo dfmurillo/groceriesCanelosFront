@@ -26,7 +26,7 @@ const AlertDelete = ({ setShowDeleteAlert, handleDeleteAction, alertText }: Aler
       <button onClick={() => setShowDeleteAlert(false)} className='btn btn-sm'>
         Cancel
       </button>
-      <button onClick={() => handleDeleteAction()} className='btn btn-primary btn-sm'>
+      <button onClick={() => handleDeleteAction()} className='btn btn-error btn-sm'>
         I&apos;m sure
       </button>
     </div>

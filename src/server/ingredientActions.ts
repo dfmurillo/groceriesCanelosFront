@@ -8,7 +8,7 @@ export async function getIngredientsWithTags(): Promise<IngredientType[]> {
   try {
     const { data } = await axios.get<IngredientType[]>(`${env.NEXT_PUBLIC_GROCERIES_BASE_PATH}/ingredients/`)
     if (!validateSchema<IngredientType[]>(data, ingredientGetResponseSchema)) {
-      throw new Error('Wrong ingredients with tags response')
+      throw new Error('error with response structure on getIngredientsWithTags')
     }
     return data
   } catch (error) {
@@ -21,7 +21,7 @@ export async function createIngredient({name}: IngredientCreateType): Promise<In
     const { data } = await axios.post<IngredientType>(`${env.NEXT_PUBLIC_GROCERIES_BASE_PATH}/ingredients/`, { name })
 
     if (!validateSchema<IngredientType>(data, ingredientSchema)) {
-      throw new Error('Error saving the ingredient')
+      throw new Error('error with response structure on createIngredient')
     }
     return data
   } catch (error) {
@@ -41,7 +41,7 @@ export async function updateIngredient({ name, id }: IngredientUpdateType): Prom
   try {
     const { data } = await axios.patch(`${env.NEXT_PUBLIC_GROCERIES_BASE_PATH}/ingredients/${id}`, { name })
     if (!validateSchema<IngredientType>(data, ingredientSchema)) {
-      throw new Error('Error updating the ingredient, invalid data')
+      throw new Error('error with response structure on updateIngredient')
     }
     return data
   } catch (error) {

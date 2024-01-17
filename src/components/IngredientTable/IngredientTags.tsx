@@ -1,5 +1,6 @@
 import { useMutation } from '@tanstack/react-query'
 import { SyntheticEvent, useRef } from 'react'
+import { error } from 'console'
 import { IngredientTagsType } from '@/schemas/IngredientTag/IngredientTag.type'
 import { createIngredientTag } from '@/server/ingredientTagActions'
 import { useCategoryTagsContext } from '../providers/CategoryTagsProvider'
@@ -15,9 +16,9 @@ const IngredientTags = ({ ingredientTags, ingredientId }: IngredientTagsPropsTyp
 
   const updateIngredientTagMutation = useMutation({
     mutationFn: createIngredientTag,
-    onSuccess: (data, updatedIngredientTag) => {
-      console.log(`DFM_ ln: 16 __ data`, data)
-      console.log(`DFM_ ln: 17 __ updatedIngredientTag`, updatedIngredientTag)
+    onSuccess: (data) => {},
+    onError: (error) => {
+      console.log(`DFM__ error`, error)
     },
   })
 
@@ -40,7 +41,7 @@ const IngredientTags = ({ ingredientTags, ingredientId }: IngredientTagsPropsTyp
         defaultValue={'placeholder'}
         ref={selectRef}
         className='select select-bordered select-sm w-full max-w-xs'
-        onSelect={handleTagSelect}
+        onChange={handleTagSelect}
       >
         <option disabled value={'placeholder'}>
           New tag

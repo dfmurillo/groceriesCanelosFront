@@ -43,6 +43,9 @@ const CategoryBadge = ({ categoryId, categoryName }: CategoriesTagBadgePropsType
         setToastAlert(defaultToastAlertValues)
       }, env.NEXT_PUBLIC_TOASTER_TIME)
     },
+    onError: (error) => {
+      console.log(`DFM__ error`, error)
+    },
   })
 
   const updateCategoryMutation = useMutation({
@@ -61,6 +64,9 @@ const CategoryBadge = ({ categoryId, categoryName }: CategoriesTagBadgePropsType
       setTimeout(() => {
         setToastAlert(defaultToastAlertValues)
       }, env.NEXT_PUBLIC_TOASTER_TIME)
+    },
+    onError: (error) => {
+      console.log(`DFM__ error`, error)
     },
   })
 

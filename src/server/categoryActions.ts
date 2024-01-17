@@ -8,7 +8,7 @@ export async function getCategoriesTags(): Promise<CategoryType[]> {
   try {
     const { data } = await axios.get<CategoryType[]>(`${env.NEXT_PUBLIC_GROCERIES_BASE_PATH}/categories/`)
     if (!validateSchema<CategoryType[]>(data, categoryGetResponseSchema)) {
-      throw new Error('Wrong Categories with tags response')
+      throw new Error('error with response structure on getCategoriesTags')
     }
 
     return data
@@ -29,7 +29,7 @@ export async function createCategory({ name }: CategoryCreateType): Promise<Cate
   try {
     const { data } = await axios.post(`${env.NEXT_PUBLIC_GROCERIES_BASE_PATH}/categories/`, { name })
     if (!validateSchema<CategoryType>(data, categorySchema)) {
-      throw new Error('Error saving category, invalid data')
+      throw new Error('error with response structure on createCategory')
     }
 
     return data
@@ -42,7 +42,7 @@ export async function updateCategory({ name, id }: CategoryUpdateType): Promise<
   try {
     const { data } = await axios.patch(`${env.NEXT_PUBLIC_GROCERIES_BASE_PATH}/categories/${id}`, { name })
     if (!validateSchema<CategoryType>(data, categorySchema)) {
-      throw new Error('Error updating category, invalid data')
+      throw new Error('error with response structure on updateCategory')
     }
 
     return data
