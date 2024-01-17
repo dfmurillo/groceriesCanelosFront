@@ -4,7 +4,7 @@ import { CategoryType } from '@/schemas/Category/Category.type'
 import { deleteCategory, updateCategory } from '@/server/categoryActions'
 import { env } from 'env.mjs'
 import ActionButton from './ActionButton'
-import AlertDelete from '../Alert/AlertDelete'
+import AlertDelete from '../ui/AlertBanner/AlertDelete'
 
 type CategoriesTagBadgePropsType = {
   categoryId: number

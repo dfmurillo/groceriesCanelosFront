@@ -1,10 +1,14 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
-import '@/assets/tailwind.css'
-import TanstackProvider from '@/components/Providers/TanstackProvider'
+import { Inter as FontSans } from 'next/font/google'
+import '@/assets/global.css'
+import TanstackProvider from '@/components/providers/TanstackProvider'
 import Footer from '@/containers/Footer'
+import { cn } from '@/lib/utils'
 
-const inter = Inter({ subsets: ['latin'] })
+export const fontSans = FontSans({
+  subsets: ['latin'],
+  variable: '--font-display',
+})
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -14,7 +18,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang='en' data-theme='bumblebee'>
-      <body className={inter.className}>
+      <body className={cn('bg-background font-display min-h-screen antialiased', fontSans.variable)}>
         <TanstackProvider>
           {children}
           <Footer />

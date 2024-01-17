@@ -5,7 +5,7 @@ import { TagType } from '@/schemas/Tag/Tag.type'
 import { deleteTag, updateTag } from '@/server/tagActions'
 import { env } from 'env.mjs'
 import ActionButton from './ActionButton'
-import AlertDelete from '../Alert/AlertDelete'
+import AlertDelete from '../ui/AlertBanner/AlertDelete'
 
 type CategoriesTagBadgePropsType = {
   tag: TagType

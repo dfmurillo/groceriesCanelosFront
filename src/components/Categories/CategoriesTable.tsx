@@ -1,10 +1,11 @@
 'use client'
 import { useQuery } from '@tanstack/react-query'
 import React from 'react'
+import LoadingDots from '@/components/ui/loadingDots'
 import { getCategoriesTags } from '@/server/categoryActions'
 import CategoriesRow from './CategoriesRow'
-import AlertBanner from '../Alert/AlertBanner'
-import { AlertBannerTypeEnum } from '../Alert/AlertBanner.type'
+import AlertBanner from '../ui/AlertBanner/AlertBanner'
+import { AlertBannerTypeEnum } from '../ui/AlertBanner/AlertBanner.type'
 
 const CategoriesTable = () => {
   const {
@@ -16,7 +17,7 @@ const CategoriesTable = () => {
     queryFn: getCategoriesTags,
   })
 
-  if (isLoading) return <span className='loading loading-dots loading-md'></span>
+  if (isLoading) return <LoadingDots />
   if (error) return <AlertBanner alertType={AlertBannerTypeEnum.ERROR} message={error.message} />
 
   return (

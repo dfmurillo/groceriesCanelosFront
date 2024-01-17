@@ -1,7 +1,7 @@
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query'
 import React from 'react'
 import HeaderMenu from '@/components/HeaderMenu/HeaderMenu'
-import FilterContextProvider from '@/components/Providers/FilterContextProvider'
+import FilterContextProvider from '@/components/providers/FilterContextProvider'
 import Header from '@/containers/Header'
 import AddMenu from '@/features/Menu/MenuAddButton'
 import { getCategoriesTags } from '@/server/categoryActions'
