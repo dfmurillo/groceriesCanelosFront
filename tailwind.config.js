@@ -12,7 +12,7 @@ module.exports = {
   ],
   plugins: [require('@tailwindcss/typography'), require('daisyui')],
   daisyui: {
-    themes: ['bumblebee'],
+    themes: ['light'],
   },
   future: {
     hoverOnlyWhenSupported: true,

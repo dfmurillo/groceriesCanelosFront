@@ -1,10 +1,5 @@
-import { z} from 'zod'
-import { tagSchema } from '../Tag/Tag.schema'
-
-export const ingredientTagsSchema = z.object({
-  id: z.number(),
-  tags: tagSchema.optional()
-})
+import { z } from 'zod'
+import { ingredientTagsSchema } from '../IngredientTag/IngredientTag.schema'
 
 export const ingredientSchema = z.object({
   id: z.number(),

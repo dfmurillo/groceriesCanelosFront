@@ -27,7 +27,7 @@ const ActionButton = ({
     <>
       <button
         onClick={handleModalOpen}
-        className={`btn ${buttonSize ? `btn-${buttonSize}` : ``} btn-${buttonColor} m-4`}
+        className={`btn ${buttonSize ? `btn-${buttonSize}` : ``} btn-${buttonColor} m-4 whitespace-nowrap`}
       >
         {buttonPrefixIcon} {textButton}
       </button>
