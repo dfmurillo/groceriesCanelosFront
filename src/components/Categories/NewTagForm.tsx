@@ -2,8 +2,8 @@
 
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { SyntheticEvent, useRef, useState } from 'react'
+import { createTag } from '@/actions/tagActions'
 import { CategoryType } from '@/schemas/Category/Category.type'
-import { createTag } from '@/server/tagActions'
 import { env } from 'env.mjs'
 
 type ToastAlertStateType = {
@@ -49,6 +49,9 @@ const NewTagForm = ({ categoryId, categoryName }: NewTagFormPropsType) => {
       setTimeout(() => {
         setToastAlert(defaultToastAlertValues)
       }, env.NEXT_PUBLIC_TOASTER_TIME)
+    },
+    onError: (error) => {
+      console.log(`DFM__ error`, error)
     },
   })
 

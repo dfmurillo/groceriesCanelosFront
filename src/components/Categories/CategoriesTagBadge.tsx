@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { SyntheticEvent, useEffect, useRef, useState } from 'react'
+import { deleteTag, updateTag } from '@/actions/tagActions'
 import { CategoryType } from '@/schemas/Category/Category.type'
 import { TagType } from '@/schemas/Tag/Tag.type'
-import { deleteTag, updateTag } from '@/server/tagActions'
 import { env } from 'env.mjs'
 import ActionButton from './ActionButton'
 import AlertDelete from '../Alert/AlertDelete'
@@ -51,6 +51,9 @@ const CategoriesTagBadge = ({ tag, categoryId }: CategoriesTagBadgePropsType) =>
         setToastAlert(defaultToastAlertValues)
       }, env.NEXT_PUBLIC_TOASTER_TIME)
     },
+    onError: (error) => {
+      console.log(`DFM__ error`, error)
+    },
   })
 
   const updateTagMutation = useMutation({
@@ -79,6 +82,9 @@ const CategoriesTagBadge = ({ tag, categoryId }: CategoriesTagBadgePropsType) =>
       setTimeout(() => {
         setToastAlert(defaultToastAlertValues)
       }, env.NEXT_PUBLIC_TOASTER_TIME)
+    },
+    onError: (error) => {
+      console.log(`DFM__ error`, error)
     },
   })
 

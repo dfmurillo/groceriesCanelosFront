@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { useFilterContext } from '@/components/Providers/FilterContextProvider'
+import { useFilterContext } from '@/components/providers/FilterContextProvider'
 import { CategoryType } from '@/schemas/Category/Category.type'
 import { FilterCategoryType } from './Filter.type'
 
@@ -39,7 +39,7 @@ const FilterList = ({ filterData }: { filterData: CategoryType }) => {
   return (
     <section>
       <div className='dropdown'>
-        <div tabIndex={0} role='button' className='btn btn-accent m-1'>
+        <div tabIndex={0} role='button' className='btn btn-outline m-1'>
           {filterData.name} ▾
           {filter?.[filterData.id]?.map(({ tagId, tagName }) => (
             <div

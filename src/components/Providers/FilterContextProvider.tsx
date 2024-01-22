@@ -1,9 +1,9 @@
 'use client'
-import { createContext, Dispatch, SetStateAction, useContext, useState } from 'react'
+import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from 'react'
 import { FilterCategoryType } from '@/components/Filter/Filter.type'
 
 type FilterContextProviderPropsType = {
-  children: React.ReactNode
+  children: ReactNode
 }
 
 type FilterContextType = {

@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import IngredientsTable from '@/components/Ingredients/IngredientsTable'
+import IngredientTable from '@/components/IngredientTable/IngredientTable'
 import CategoryFilter from '@/features/CategoryFilter/CategoryFilter'
 
 export const metadata: Metadata = {
@@ -18,7 +18,7 @@ const IngredientsPage = () => {
       <section className='border-1 m-2 w-full rounded border-solid border-black bg-slate-50 p-3 shadow-md'>
         <h2 className='text-lg font-bold'>Ingredients</h2>
         <div className='flex flex-row flex-wrap'>
-          <IngredientsTable />
+          <IngredientTable />
         </div>
       </section>
     </>
