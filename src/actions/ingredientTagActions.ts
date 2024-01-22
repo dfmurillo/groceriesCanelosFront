@@ -1,12 +1,22 @@
 import axios from 'axios'
 import { ingredientTagsCreateResponseSchema } from '@/schemas/IngredientTag/IngredientTag.schema'
-import { IngredientTagsCreateResponseType, IngredientTagsCreateType, IngredientTagsType } from '@/schemas/IngredientTag/IngredientTag.type'
+import {
+  IngredientTagsCreateResponseType,
+  IngredientTagsCreateType,
+  IngredientTagsType,
+} from '@/schemas/IngredientTag/IngredientTag.type'
 import { validateSchema } from '@/utils/validateSchema'
 import { env } from 'env.mjs'
 
-export async function createIngredientTag({ingredientId, tagId}: IngredientTagsCreateType): Promise<IngredientTagsCreateResponseType> {
+export async function createIngredientTag({
+  ingredientId,
+  tagId,
+}: IngredientTagsCreateType): Promise<IngredientTagsCreateResponseType> {
   try {
-    const { data } = await axios.post<IngredientTagsType>(`${env.NEXT_PUBLIC_GROCERIES_BASE_PATH}/ingredient-tags/`, { ingredient: ingredientId, tag: tagId })
+    const { data } = await axios.post<IngredientTagsType>(`${env.NEXT_PUBLIC_GROCERIES_BASE_PATH}/ingredient-tags/`, {
+      ingredient: ingredientId,
+      tag: tagId,
+    })
 
     if (!validateSchema<IngredientTagsCreateResponseType>(data, ingredientTagsCreateResponseSchema)) {
       throw new Error('error with response structure on createIngredientTag')

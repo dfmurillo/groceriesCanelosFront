@@ -1,9 +1,9 @@
-import { z } from "zod";
-import { tagSchema } from "../Tag/Tag.schema";
+import { z } from 'zod'
+import { tagSchema } from '../Tag/Tag.schema'
 
 export const ingredientTagsSchema = z.object({
   id: z.number(),
-  tag: tagSchema.optional()
+  tag: tagSchema.optional(),
 })
 
 export const ingredientTagsCreateSchema = z.object({
@@ -13,6 +13,6 @@ export const ingredientTagsCreateSchema = z.object({
 
 export const ingredientTagsCreateResponseSchema = z.object({
   id: z.number(),
-  ingredient: z.object({ id: z.number()}),
-  tag: z.object({ id: z.number()}),
+  ingredient: z.object({ id: z.number() }),
+  tag: z.object({ id: z.number() }),
 })

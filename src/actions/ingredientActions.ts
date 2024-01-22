@@ -16,7 +16,7 @@ export async function getIngredientsWithTags(): Promise<IngredientType[]> {
   }
 }
 
-export async function createIngredient({name}: IngredientCreateType): Promise<IngredientType> {
+export async function createIngredient({ name }: IngredientCreateType): Promise<IngredientType> {
   try {
     const { data } = await axios.post<IngredientType>(`${env.NEXT_PUBLIC_GROCERIES_BASE_PATH}/ingredients/`, { name })
 
