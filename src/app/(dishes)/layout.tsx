@@ -1,11 +1,11 @@
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query'
 import React from 'react'
+import { getCategoriesTags } from '@/actions/categoryActions'
+import { getIngredientsWithTags } from '@/actions/ingredientActions'
 import HeaderMenu from '@/components/HeaderMenu/HeaderMenu'
 import FilterContextProvider from '@/components/providers/FilterContextProvider'
 import Header from '@/containers/Header'
 import AddMenu from '@/features/Menu/MenuAddButton'
-import { getCategoriesTags } from '@/server/categoryActions'
-import { getIngredientsWithTags } from '@/server/ingredientActions'
 
 const DishesLayout = async ({ children }: { children: React.ReactNode }) => {
   const queryClient = new QueryClient()

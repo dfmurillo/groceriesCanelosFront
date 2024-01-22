@@ -1,7 +1,7 @@
 'use client'
 import { useQuery } from '@tanstack/react-query'
 import React from 'react'
-import { getCategoriesTags } from '@/server/categoryActions'
+import { getCategoriesTags } from '@/actions/categoryActions'
 import CategoriesRow from './CategoriesRow'
 import AlertBanner from '../Alert/AlertBanner'
 import { AlertBannerTypeEnum } from '../Alert/AlertBanner.type'

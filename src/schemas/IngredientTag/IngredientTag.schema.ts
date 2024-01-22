@@ -12,6 +12,7 @@ export const ingredientTagsCreateSchema = z.object({
 })
 
 export const ingredientTagsCreateResponseSchema = z.object({
+  id: z.number(),
   ingredient: z.object({ id: z.number()}),
   tag: z.object({ id: z.number()}),
 })
