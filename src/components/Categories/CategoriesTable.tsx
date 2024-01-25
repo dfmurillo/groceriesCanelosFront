@@ -3,8 +3,8 @@ import { useQuery } from '@tanstack/react-query'
 import React from 'react'
 import { getCategoriesTags } from '@/actions/categoryActions'
 import CategoriesRow from './CategoriesRow'
-import AlertBanner from '../Alert/AlertBanner'
-import { AlertBannerTypeEnum } from '../Alert/AlertBanner.type'
+import AlertBanner from '../UI/Alert/AlertBanner'
+import { AlertBannerTypeEnum } from '../UI/Alert/AlertBanner.type'
 
 const CategoriesTable = () => {
   const {

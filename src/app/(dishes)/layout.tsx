@@ -3,7 +3,7 @@ import React from 'react'
 import { getCategoriesTags } from '@/actions/categoryActions'
 import { getIngredientsWithTags } from '@/actions/ingredientActions'
 import HeaderMenu from '@/components/HeaderMenu/HeaderMenu'
-import FilterContextProvider from '@/components/providers/FilterContextProvider'
+import FilterContextProvider from '@/components/Providers/FilterContextProvider'
 import Header from '@/containers/Header'
 import AddMenu from '@/features/Menu/MenuAddButton'
 

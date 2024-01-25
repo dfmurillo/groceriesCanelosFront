@@ -4,7 +4,7 @@ import { createIngredientTag, deleteIngredientTag } from '@/actions/ingredientTa
 import { IngredientType } from '@/schemas/Ingredient/Ingredient.type'
 import { IngredientTagsType } from '@/schemas/IngredientTag/IngredientTag.type'
 import { addTagToIngredient, removeTagFromIngredient } from '@/utils/ingredients'
-import { useCategoryTagsContext } from '../providers/CategoryTagsProvider'
+import { useCategoryTagsContext } from '../Providers/CategoryTagsProvider'
 
 type IngredientTagsPropsType = {
   ingredientTags: IngredientTagsType[]

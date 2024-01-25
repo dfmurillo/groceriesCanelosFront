@@ -1,5 +1,5 @@
 import React from 'react'
-import FooterOption from '@/components/FooterOption/FooterOption'
+import FooterOption from '@/components/UI/FooterOption/FooterOption'
 
 const Footer = () => {
   return (
