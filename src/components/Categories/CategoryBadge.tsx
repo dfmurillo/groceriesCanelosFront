@@ -1,32 +1,39 @@
+import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { SyntheticEvent, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
+import { useForm } from 'react-hook-form'
 import { deleteCategory, updateCategory } from '@/actions/categoryActions'
-import { CategoryType } from '@/schemas/Category/Category.type'
-import { env } from 'env.mjs'
+import { categoryUpdateSchema } from '@/schemas/Category/Category.schema'
+import { CategoryType, CategoryUpdateType } from '@/schemas/Category/Category.type'
 import ActionButton from './ActionButton'
-import AlertDelete from '../Alert/AlertDelete'
+import AlertDelete, { AlertDeleteFunctionsType } from '../UI/Alert/AlertDelete'
+import Button, { ButtonActionEnum } from '../UI/FormElements/Button'
+import ButtonHolder from '../UI/FormElements/ButtonHolder'
+import InputText, { InputTextFunctionsType } from '../UI/FormElements/InputText'
+import Toast, { ToastFunctionsType } from '../UI/Toast/Toast'
 
 type CategoriesTagBadgePropsType = {
   categoryId: number
   categoryName: string
 }
 
-type ToastAlertStateType = {
-  show: boolean
-  message: string
-  alertType: 'success' | 'error'
-}
-
 const CategoryBadge = ({ categoryId, categoryName }: CategoriesTagBadgePropsType) => {
-  const defaultToastAlertValues = {
-    show: false,
-    message: 'The category was saved',
-    alertType: 'success',
-  } as ToastAlertStateType
+  const categoryFieldRef = useRef<InputTextFunctionsType>(null)
+  const toastRef = useRef<ToastFunctionsType>(null)
+  const alertDeleteRef = useRef<AlertDeleteFunctionsType>(null)
 
-  const nameRef = useRef<HTMLInputElement>(null)
-  const [toastAlert, setToastAlert] = useState<ToastAlertStateType>(defaultToastAlertValues)
-  const [showDeleteAlert, setShowDeleteAlert] = useState(false)
+  const {
+    setFocus,
+    register,
+    handleSubmit,
+    formState: { isSubmitting, errors },
+  } = useForm<CategoryUpdateType>({
+    resolver: zodResolver(categoryUpdateSchema),
+  })
+
+  useEffect(() => {
+    categoryFieldRef.current?.setError(errors.name?.message ?? '')
+  }, [errors])
 
   const queryClient = useQueryClient()
   const deleteCategoryMutation = useMutation({
@@ -38,13 +45,10 @@ const CategoryBadge = ({ categoryId, categoryName }: CategoriesTagBadgePropsType
       queryClient.invalidateQueries({
         queryKey: ['categories'],
       })
-      setToastAlert({ ...toastAlert, show: true, message: `The category was deleted` })
-      setTimeout(() => {
-        setToastAlert(defaultToastAlertValues)
-      }, env.NEXT_PUBLIC_TOASTER_TIME)
+      toastRef.current?.setMessage(`The category was deleted`)
     },
     onError: (error) => {
-      console.log(`DFM__ error`, error)
+      categoryFieldRef.current?.setError(error.message)
     },
   })
 
@@ -60,73 +64,63 @@ const CategoryBadge = ({ categoryId, categoryName }: CategoriesTagBadgePropsType
       queryClient.invalidateQueries({
         queryKey: ['categories'],
       })
-      setToastAlert({ ...toastAlert, show: true, message: `The category was updated` })
-      setTimeout(() => {
-        setToastAlert(defaultToastAlertValues)
-      }, env.NEXT_PUBLIC_TOASTER_TIME)
+      toastRef.current?.setMessage(`The category was updated`)
     },
     onError: (error) => {
-      console.log(`DFM__ error`, error)
+      categoryFieldRef.current?.setError(error.message)
     },
   })
 
-  const handleFormSubmit = async (event: SyntheticEvent) => {
-    event.preventDefault()
-    const name = nameRef.current?.value
-    if (name) {
-      updateCategoryMutation.mutate({ id: categoryId, name })
-    }
+  const handleFormSubmit = async (formData: CategoryUpdateType) => {
+    updateCategoryMutation.mutate({ id: categoryId, name: formData.name })
+    setFocus('name')
   }
 
-  const handleDeleteConfirmation = (event: SyntheticEvent) => {
-    event.preventDefault()
-    setShowDeleteAlert(true)
+  const handleDeleteConfirmation = () => {
+    alertDeleteRef.current?.setVisibility(true)
   }
 
-  const handleDeleteTag = async () => {
+  const handleDeleteCategory = async () => {
     await deleteCategoryMutation.mutate(categoryId)
   }
-
-  useEffect(() => {
-    if (nameRef.current) {
-      nameRef.current.value = categoryName
-      nameRef.current.focus()
-    }
-  })
 
   return (
     <>
       <ActionButton textButton={categoryName} buttonPrefixIcon='📋' buttonSize='xs' buttonColor='ghost'>
-        <form onSubmit={handleFormSubmit} className='mb-3'>
-          <label htmlFor='name'>
-            <div className='label'>
-              <span className='label-text'>Category Name:</span>
-            </div>
-            <input ref={nameRef} type='text' placeholder='name' className='input input-bordered w-full max-w-xs' />
-          </label>
-          <div className='modal-action place-content-between'>
-            <button type='button' onClick={handleDeleteConfirmation} className='btn btn-outline btn-error'>
-              Delete
-            </button>
-            <button type='submit' className='btn btn-outline btn-success'>
-              Edit
-            </button>
-          </div>
-        </form>
-        {toastAlert.show && (
-          <div className='toast toast-center toast-top'>
-            <div className={`alert alert-${toastAlert.alertType}`}>
-              <span>{toastAlert.message}</span>
-            </div>
-          </div>
-        )}
-        {showDeleteAlert && (
-          <AlertDelete
-            alertText='Are you sure?'
-            handleDeleteAction={handleDeleteTag}
-            setShowDeleteAlert={setShowDeleteAlert}
+        <form onSubmit={handleSubmit(handleFormSubmit)} className='mb-3'>
+          <InputText
+            ref={categoryFieldRef}
+            labelText='Category Name:'
+            inputProps={{
+              ...register('name', {
+                value: categoryName,
+              }),
+              placeholder: 'Category name',
+            }}
           />
-        )}
+          <InputText
+            inputProps={{
+              ...register('id', {
+                value: categoryId,
+              }),
+              type: 'hidden',
+            }}
+          />
+          <ButtonHolder>
+            <Button
+              action={ButtonActionEnum.DELETE}
+              label='Delete'
+              buttonProps={{ type: 'button', onClick: handleDeleteConfirmation }}
+            />
+            <Button
+              action={ButtonActionEnum.SAVE}
+              label={isSubmitting ? 'Editing...' : 'Edit'}
+              buttonProps={{ type: 'submit', disabled: isSubmitting }}
+            />
+          </ButtonHolder>
+        </form>
+        <Toast ref={toastRef} />
+        <AlertDelete ref={alertDeleteRef} alertText='Are you sure?' handleAction={handleDeleteCategory} />
       </ActionButton>
     </>
   )

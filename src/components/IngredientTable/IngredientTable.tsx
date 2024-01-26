@@ -1,5 +1,5 @@
 import IngredientTableBody from './IngredientTableBody'
-import CategoryTagsProvider from '../providers/CategoryTagsProvider'
+import CategoryTagsProvider from '../Providers/CategoryTagsProvider'
 
 const IngredientTable = () => {
   return (

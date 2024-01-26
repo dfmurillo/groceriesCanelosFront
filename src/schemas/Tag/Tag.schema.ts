@@ -6,6 +6,6 @@ export const tagSchema = z.object({
 })
 
 export const tagCreateSchema = z.object({
-  name: z.string(),
+  name: z.string().min(1, {message: 'Tag name is required'}),
   categoryId: z.number(),
 })

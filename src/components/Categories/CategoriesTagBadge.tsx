@@ -1,33 +1,39 @@
+import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { SyntheticEvent, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
+import { useForm } from 'react-hook-form'
 import { deleteTag, updateTag } from '@/actions/tagActions'
 import { CategoryType } from '@/schemas/Category/Category.type'
-import { TagType } from '@/schemas/Tag/Tag.type'
-import { env } from 'env.mjs'
+import { tagSchema } from '@/schemas/Tag/Tag.schema'
+import { TagType, TagUpdateType } from '@/schemas/Tag/Tag.type'
 import ActionButton from './ActionButton'
-import AlertDelete from '../Alert/AlertDelete'
+import AlertDelete, { AlertDeleteFunctionsType } from '../UI/Alert/AlertDelete'
+import Button, { ButtonActionEnum } from '../UI/FormElements/Button'
+import ButtonHolder from '../UI/FormElements/ButtonHolder'
+import InputText, { InputTextFunctionsType } from '../UI/FormElements/InputText'
+import Toast, { ToastFunctionsType } from '../UI/Toast/Toast'
 
 type CategoriesTagBadgePropsType = {
   tag: TagType
   categoryId: number
 }
 
-type ToastAlertStateType = {
-  show: boolean
-  message: string
-  alertType: 'success' | 'error'
-}
-
 const CategoriesTagBadge = ({ tag, categoryId }: CategoriesTagBadgePropsType) => {
-  const defaultToastAlertValues = {
-    show: false,
-    message: 'The tag was saved',
-    alertType: 'success',
-  } as ToastAlertStateType
+  const tagFieldRef = useRef<InputTextFunctionsType>(null)
+  const toastRef = useRef<ToastFunctionsType>(null)
+  const alertDeleteRef = useRef<AlertDeleteFunctionsType>(null)
+  const {
+    setFocus,
+    register,
+    handleSubmit,
+    formState: { isSubmitting, errors },
+  } = useForm<TagUpdateType>({
+    resolver: zodResolver(tagSchema),
+  })
 
-  const nameRef = useRef<HTMLInputElement>(null)
-  const [toastAlert, setToastAlert] = useState<ToastAlertStateType>(defaultToastAlertValues)
-  const [showDeleteAlert, setShowDeleteAlert] = useState(false)
+  useEffect(() => {
+    tagFieldRef.current?.setError(errors.name?.message ?? '')
+  }, [errors])
 
   const queryClient = useQueryClient()
   const deleteTagMutation = useMutation({
@@ -46,13 +52,10 @@ const CategoriesTagBadge = ({ tag, categoryId }: CategoriesTagBadgePropsType) =>
       queryClient.invalidateQueries({
         queryKey: ['categories'],
       })
-      setToastAlert({ ...toastAlert, show: true, message: `The tag was deleted` })
-      setTimeout(() => {
-        setToastAlert(defaultToastAlertValues)
-      }, env.NEXT_PUBLIC_TOASTER_TIME)
+      toastRef.current?.setMessage(`The tag was deleted`)
     },
     onError: (error) => {
-      console.log(`DFM__ error`, error)
+      tagFieldRef.current?.setError(error.message)
     },
   })
 
@@ -78,73 +81,61 @@ const CategoriesTagBadge = ({ tag, categoryId }: CategoriesTagBadgePropsType) =>
       queryClient.invalidateQueries({
         queryKey: ['categories'],
       })
-      setToastAlert({ ...toastAlert, show: true, message: `The tag was updated` })
-      setTimeout(() => {
-        setToastAlert(defaultToastAlertValues)
-      }, env.NEXT_PUBLIC_TOASTER_TIME)
+      toastRef.current?.setMessage(`The tag was updated`)
     },
     onError: (error) => {
-      console.log(`DFM__ error`, error)
+      tagFieldRef.current?.setError(error.message)
     },
   })
 
-  const handleFormSubmit = async (event: SyntheticEvent) => {
-    event.preventDefault()
-    const name = nameRef.current?.value
-    if (name) {
-      updateTagMutation.mutate({ id: tag.id, name })
-    }
+  const formSubmit = async (formData: TagUpdateType) => {
+    await updateTagMutation.mutate({ id: tag.id, name: formData.name })
+    setFocus('name')
   }
 
-  const handleDeleteConfirmation = (event: SyntheticEvent) => {
-    event.preventDefault()
-    setShowDeleteAlert(true)
+  const handleDeleteConfirmation = () => {
+    alertDeleteRef.current?.setVisibility(true)
   }
 
   const handleDeleteTag = async () => {
     await deleteTagMutation.mutate(tag.id)
   }
 
-  useEffect(() => {
-    if (nameRef.current) {
-      nameRef.current.value = tag.name
-      nameRef.current.focus()
-    }
-  })
-
   return (
     <>
       <ActionButton textButton={tag.name} buttonPrefixIcon='🔖' buttonSize='xs' buttonColor='ghost'>
-        <form onSubmit={handleFormSubmit} className='mb-3'>
-          <label htmlFor='name'>
-            <div className='label'>
-              <span className='label-text'>Tag Name:</span>
-            </div>
-            <input ref={nameRef} type='text' placeholder='name' className='input input-bordered w-full max-w-xs' />
-          </label>
-          <div className='modal-action place-content-between'>
-            <button type='button' onClick={handleDeleteConfirmation} className='btn btn-outline btn-error'>
-              Delete
-            </button>
-            <button type='submit' className='btn btn-outline btn-success'>
-              Edit
-            </button>
-          </div>
-        </form>
-        {toastAlert.show && (
-          <div className='toast toast-center toast-top'>
-            <div className={`alert alert-${toastAlert.alertType}`}>
-              <span>{toastAlert.message}</span>
-            </div>
-          </div>
-        )}
-        {showDeleteAlert && (
-          <AlertDelete
-            alertText='Are you sure?'
-            handleDeleteAction={handleDeleteTag}
-            setShowDeleteAlert={setShowDeleteAlert}
+        <form onSubmit={handleSubmit(formSubmit)} className='mb-3'>
+          <InputText
+            ref={tagFieldRef}
+            labelText='Tag Name:'
+            inputProps={{
+              ...register('name', {
+                value: tag.name,
+              }),
+              placeholder: 'Tag name',
+            }}
           />
-        )}
+          <InputText
+            inputProps={{
+              ...register('id', { value: tag.id }),
+              type: 'hidden',
+            }}
+          />
+          <ButtonHolder>
+            <Button
+              action={ButtonActionEnum.DELETE}
+              label='Delete'
+              buttonProps={{ type: 'button', onClick: handleDeleteConfirmation }}
+            />
+            <Button
+              action={ButtonActionEnum.SAVE}
+              label={isSubmitting ? 'Editing...' : 'Edit'}
+              buttonProps={{ type: 'submit', disabled: isSubmitting }}
+            />
+          </ButtonHolder>
+        </form>
+        <Toast ref={toastRef} />
+        <AlertDelete ref={alertDeleteRef} alertText='Are you sure?' handleAction={handleDeleteTag} />
       </ActionButton>
     </>
   )

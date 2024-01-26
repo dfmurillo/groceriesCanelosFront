@@ -1,16 +1,17 @@
 'use client'
 
+import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { SyntheticEvent, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
+import { useForm } from 'react-hook-form'
 import { createTag } from '@/actions/tagActions'
 import { CategoryType } from '@/schemas/Category/Category.type'
-import { env } from 'env.mjs'
-
-type ToastAlertStateType = {
-  show: boolean
-  message: string
-  alertType: 'success' | 'error'
-}
+import { tagCreateSchema } from '@/schemas/Tag/Tag.schema'
+import { TagCreateType } from '@/schemas/Tag/Tag.type'
+import Button, { ButtonActionEnum } from '../UI/FormElements/Button'
+import ButtonHolder from '../UI/FormElements/ButtonHolder'
+import InputText, { InputTextFunctionsType } from '../UI/FormElements/InputText'
+import Toast, { ToastFunctionsType } from '../UI/Toast/Toast'
 
 type NewTagFormPropsType = {
   categoryId: number
@@ -18,14 +19,21 @@ type NewTagFormPropsType = {
 }
 
 const NewTagForm = ({ categoryId, categoryName }: NewTagFormPropsType) => {
-  const defaultToastAlertValues = {
-    show: false,
-    message: 'The tag was saved',
-    alertType: 'success',
-  } as ToastAlertStateType
+  const toastRef = useRef<ToastFunctionsType>(null)
+  const tagFieldRef = useRef<InputTextFunctionsType>(null)
+  const {
+    reset,
+    setFocus,
+    register,
+    handleSubmit,
+    formState: { isSubmitting, errors },
+  } = useForm<TagCreateType>({
+    resolver: zodResolver(tagCreateSchema),
+  })
 
-  const nameRef = useRef<HTMLInputElement>(null)
-  const [toastAlert, setToastAlert] = useState<ToastAlertStateType>(defaultToastAlertValues)
+  useEffect(() => {
+    tagFieldRef.current?.setError(errors.name?.message ?? '')
+  }, [errors])
 
   const queryClient = useQueryClient()
   const addTagMutation = useMutation({
@@ -45,49 +53,48 @@ const NewTagForm = ({ categoryId, categoryName }: NewTagFormPropsType) => {
       queryClient.invalidateQueries({
         queryKey: ['categories'],
       })
-      setToastAlert({ ...toastAlert, show: true, message: `The tag ${newTag[0]?.name} was saved` })
-      setTimeout(() => {
-        setToastAlert(defaultToastAlertValues)
-      }, env.NEXT_PUBLIC_TOASTER_TIME)
+      toastRef.current?.setMessage(`The tag ${newTag[0]?.name} was saved`)
     },
     onError: (error) => {
-      console.log(`DFM__ error`, error)
+      tagFieldRef.current?.setError(error.message)
     },
   })
 
-  const handleFormSubmit = async (event: SyntheticEvent) => {
-    event.preventDefault()
-    const name = nameRef.current?.value
-    if (name) {
-      await addTagMutation.mutate({ name, categoryId })
-      nameRef.current.value = ''
-      nameRef.current.focus()
-    }
+  const formSubmit = async (formData: TagCreateType) => {
+    await addTagMutation.mutate({ name: formData.name, categoryId })
+    setFocus('name')
+    reset()
   }
 
   return (
     <>
-      <form onSubmit={handleFormSubmit}>
+      <form onSubmit={handleSubmit(formSubmit)}>
         <h2 className='text-lg'>for {categoryName}.</h2>
-        <label htmlFor='name'>
-          <div className='label'>
-            <span className='label-text'>Tag Name:</span>
-          </div>
-          <input ref={nameRef} type='text' placeholder='name' className='input input-bordered w-full max-w-xs' />
-        </label>
-        <div className='modal-action'>
-          <button type='submit' className='btn btn-outline btn-success'>
-            Save
-          </button>
-        </div>
+        <InputText
+          ref={tagFieldRef}
+          inputProps={{ ...register('name'), placeholder: 'Tag Name' }}
+          labelText='Tag Name:'
+        />
+        <InputText
+          inputProps={{
+            ...register('categoryId', {
+              value: categoryId,
+            }),
+            type: 'hidden',
+          }}
+        />
+        <ButtonHolder>
+          <Button
+            action={ButtonActionEnum.SAVE}
+            label={isSubmitting ? 'Saving...' : 'Save'}
+            buttonProps={{
+              type: 'submit',
+              disabled: isSubmitting,
+            }}
+          />
+        </ButtonHolder>
       </form>
-      {toastAlert.show && (
-        <div className='toast toast-start'>
-          <div className={`alert alert-${toastAlert.alertType}`}>
-            <span>{toastAlert.message}</span>
-          </div>
-        </div>
-      )}
+      <Toast ref={toastRef} />
     </>
   )
 }

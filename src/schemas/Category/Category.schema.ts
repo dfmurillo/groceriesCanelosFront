@@ -8,12 +8,12 @@ export const categorySchema = z.object({
 })
 
 export const categoryCreateSchema = z.object({
-  name: z.string(),
+  name: z.string().min(1, { message: 'Category name is required' }),
 })
 
 export const categoryUpdateSchema = z.object({
   id: z.number(),
-  name: z.string(),
+  name: z.string().min(1, { message: "Category name is required" }),
 })
 
 export const categoryGetResponseSchema = z.array(categorySchema)
