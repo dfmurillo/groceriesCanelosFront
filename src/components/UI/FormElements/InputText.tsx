@@ -14,8 +14,6 @@ const InputText = forwardRef<InputTextFunctionsType, InputTextPropsType>(({ erro
 
   const [errorMessage, setErrorMessage] = useState(error ?? null)
 
-  useEffect(() => console.log(`DFM_ ln: 34 __ render InputText`), [])
-
   useImperativeHandle(
     ref,
     () => ({

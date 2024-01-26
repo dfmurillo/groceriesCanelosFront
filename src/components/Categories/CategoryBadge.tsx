@@ -4,7 +4,7 @@ import { deleteCategory, updateCategory } from '@/actions/categoryActions'
 import { CategoryType } from '@/schemas/Category/Category.type'
 import { env } from 'env.mjs'
 import ActionButton from './ActionButton'
-import AlertDelete from '../UI/Alert/AlertDelete'
+import Alert from '../UI/Alert/AlertDelete'
 
 type CategoriesTagBadgePropsType = {
   categoryId: number
@@ -121,11 +121,7 @@ const CategoryBadge = ({ categoryId, categoryName }: CategoriesTagBadgePropsType
           </div>
         )}
         {showDeleteAlert && (
-          <AlertDelete
-            alertText='Are you sure?'
-            handleDeleteAction={handleDeleteTag}
-            setShowDeleteAlert={setShowDeleteAlert}
-          />
+          <Alert alertText='Are you sure?' handleAction={handleDeleteTag} setShowDeleteAlert={setShowDeleteAlert} />
         )}
       </ActionButton>
     </>
