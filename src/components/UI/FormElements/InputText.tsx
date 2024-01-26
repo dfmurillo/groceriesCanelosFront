@@ -1,4 +1,4 @@
-import { forwardRef, InputHTMLAttributes, useEffect, useImperativeHandle, useState } from 'react'
+import { forwardRef, InputHTMLAttributes, useImperativeHandle, useState } from 'react'
 
 type InputTextPropsType = {
   labelText?: string

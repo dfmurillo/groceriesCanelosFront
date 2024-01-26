@@ -3,7 +3,7 @@ import CategoryTagsProvider from '../Providers/CategoryTagsProvider'
 
 const IngredientTable = () => {
   return (
-    <div className='center flex flex-row flex-wrap'>
+    <div className='center mb-12 flex flex-row flex-wrap'>
       <div className='w-full overflow-x-auto'>
         <table className='table table-zebra'>
           {/* head */}

@@ -78,7 +78,7 @@ const IngredientTags = ({ ingredientTags, ingredientId }: IngredientTagsPropsTyp
         onChange={handleTagSelect}
       >
         <option disabled value={defaultSelectValue}>
-          New tag
+          Add tag
         </option>
         {categoryTags?.map(({ id, name, categoryTags }) => (
           <optgroup key={id} label={name}>
