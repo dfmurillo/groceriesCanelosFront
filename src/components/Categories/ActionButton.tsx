@@ -1,21 +1,42 @@
 'use client'
 
+import { cva } from 'class-variance-authority'
 import { ReactNode, useRef } from 'react'
+import { twMerge } from 'tailwind-merge'
 
 export type AddButtonPropsType = {
   textButton: string
   buttonPrefixIcon?: string
   children: ReactNode
-  buttonSize?: '' | 'xs'
+  buttonSize?: null | 'xs'
   buttonColor?: 'success' | 'ghost'
+  className?: string
 }
+
+const buttonAction = cva(['btn', 'm-4', 'whitespace-nowrap'], {
+  variants: {
+    buttonSize: {
+      xs: ['btn-xs'],
+      normal: [],
+    },
+    buttonColor: {
+      success: ['btn-success'],
+      ghost: ['btn-ghost'],
+    },
+  },
+  defaultVariants: {
+    buttonSize: 'normal',
+    buttonColor: 'success',
+  },
+})
 
 const ActionButton = ({
   textButton,
   buttonPrefixIcon,
   children,
-  buttonSize,
+  buttonSize = null,
   buttonColor = 'success',
+  className,
 }: AddButtonPropsType) => {
   const dialogModalRef = useRef<HTMLDialogElement>(null)
 
@@ -25,10 +46,7 @@ const ActionButton = ({
 
   return (
     <>
-      <button
-        onClick={handleModalOpen}
-        className={`btn ${buttonSize ? `btn-${buttonSize}` : ``} btn-${buttonColor} m-4 whitespace-nowrap`}
-      >
+      <button onClick={handleModalOpen} className={twMerge(buttonAction({ buttonColor, buttonSize, className }))}>
         {buttonPrefixIcon} {textButton}
       </button>
       <dialog ref={dialogModalRef} className='modal modal-bottom sm:modal-middle'>

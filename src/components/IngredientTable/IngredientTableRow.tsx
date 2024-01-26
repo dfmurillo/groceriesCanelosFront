@@ -1,4 +1,5 @@
 import { IngredientType } from '@/schemas/Ingredient/Ingredient.type'
+import IngredientNameBadge from './IngredientNameBadge'
 import IngredientTags from './IngredientTags'
 
 type IngredientTableRowPropsType = {
@@ -8,9 +9,11 @@ type IngredientTableRowPropsType = {
 const IngredientTableRow = ({ ingredient }: IngredientTableRowPropsType) => {
   return (
     <tr>
-      <td className='first-letter:uppercase'>{ingredient.name}</td>
       <td>
-        <IngredientTags ingredientId={ingredient.id} ingredientTags={ingredient.ingredientTags} />
+        <IngredientNameBadge ingredientId={ingredient.id} ingredientName={ingredient.name} />
+      </td>
+      <td>
+        <IngredientTags ingredientId={ingredient.id} ingredientTags={ingredient.ingredientTags ?? []} />
       </td>
     </tr>
   )
