@@ -7,7 +7,13 @@ import FilterContextProvider from '@/components/Providers/FilterContextProvider'
 import Header from '@/containers/Header'
 
 const DishesLayout = async ({ children }: { children: React.ReactNode }) => {
-  const queryClient = new QueryClient()
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        staleTime: 10 * 60 * 1000, // 10 mins
+      },
+    },
+  })
   await Promise.all([
     queryClient.prefetchQuery({
       queryKey: ['categories'],
