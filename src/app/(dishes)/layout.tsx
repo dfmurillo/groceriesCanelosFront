@@ -3,7 +3,7 @@ import React from 'react'
 import { getCategoriesTags } from '@/actions/categoryActions'
 import { getIngredientsWithTags } from '@/actions/ingredientActions'
 import HeaderMenu from '@/components/HeaderMenu/HeaderMenu'
-import FilterContextProvider from '@/components/Providers/FilterContextProvider'
+import FilterContextProvider from '@/contexts/FilterContextProvider'
 import Header from '@/containers/Header'
 
 const DishesLayout = async ({ children }: { children: React.ReactNode }) => {

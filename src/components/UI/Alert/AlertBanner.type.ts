@@ -1,8 +1,8 @@
 export enum AlertBannerTypeEnum {
-  INFO = 'info',
-  SUCCESS = 'success',
-  WARNING = 'warning',
-  ERROR = 'error',
+  INFO = 'alert-info',
+  SUCCESS = 'alert-success',
+  WARNING = 'alert-warning',
+  ERROR = 'alert-error',
 }
 
 export type AlertBannerType = {

@@ -85,7 +85,7 @@ const IngredientNameBadge = ({ ingredientId, ingredientName }: IngredientNameBad
   }
 
   return (
-    <ActionButton textButton={ingredientName} buttonSize='xs' buttonColor='ghost' className='first-letter:uppercase'>
+    <ActionButton textButton={ingredientName} buttonSize='xs' buttonColor='ghost' className='capitalize'>
       <form onSubmit={handleSubmit(handleFormSubmit)} className='mb-3'>
         <InputText
           ref={ingredientFieldRef}

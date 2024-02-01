@@ -1,4 +1,4 @@
-import axios, { AxiosError } from 'axios'
+import axios from 'axios'
 import { categoryGetResponseSchema, categorySchema } from '@/schemas/Category/Category.schema'
 import { CategoryCreateType, CategoryType, CategoryUpdateType } from '@/schemas/Category/Category.type'
 import { validateSchema } from '@/utils/validateSchema'

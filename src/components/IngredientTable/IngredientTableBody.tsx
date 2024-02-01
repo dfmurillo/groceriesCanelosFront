@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 import { getCategoriesTags } from '@/actions/categoryActions'
 import { getIngredientsWithTags } from '@/actions/ingredientActions'
 import IngredientTableRow from './IngredientTableRow'
-import { useCategoryTagsContext } from '../Providers/CategoryTagsProvider'
+import { useCategoryTagsContext } from '../../contexts/CategoryTagsProvider'
 import AlertBanner from '../UI/Alert/AlertBanner'
 import { AlertBannerTypeEnum } from '../UI/Alert/AlertBanner.type'
 

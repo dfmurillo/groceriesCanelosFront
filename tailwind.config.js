@@ -17,5 +17,5 @@ module.exports = {
   future: {
     hoverOnlyWhenSupported: true,
   },
-  safelist: ['btn-xs', 'alert-success', 'alert-error'],
+  safelist: [],
 }
