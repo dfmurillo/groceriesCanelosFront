@@ -1,24 +1,28 @@
 import { useQuery } from '@tanstack/react-query'
 import { throttle } from 'lodash'
-import React, { forwardRef, SyntheticEvent, useEffect, useImperativeHandle, useRef, useState } from 'react'
+import React, { forwardRef, SyntheticEvent, useImperativeHandle, useRef, useState } from 'react'
 import { Control, FieldErrors, useFieldArray, UseFormRegister } from 'react-hook-form'
 import { getIngredientsWithTags } from '@/actions/ingredientActions'
+import { deleteMenuIngredients } from '@/actions/menuIngredientsActions'
+import revalidateData from '@/app/actions'
 import { IngredientType } from '@/schemas/Ingredient/Ingredient.type'
-import { MenuFormCreateType } from '@/schemas/Menu/Menu.type'
+import { MenuFormType } from '@/schemas/Menu/Menu.type'
+import { _INGREDIENT_QUANTITY_TYPE_DATA_LIST_ID } from '@/utils/constants'
 import InputText from '../UI/FormElements/InputText'
 
 type IngredientFilterMenuPropsType = {
-  control: Control<MenuFormCreateType>
-  errors: FieldErrors<MenuFormCreateType>
-  register: UseFormRegister<MenuFormCreateType>
+  control: Control<MenuFormType>
+  errors: FieldErrors<MenuFormType>
+  register: UseFormRegister<MenuFormType>
+  isEditing: boolean
 }
 
 export type IngredientFilterMenuFunctionsType = {
   resetList: () => void
 }
 
-const MenuCreateIngredientList = forwardRef<IngredientFilterMenuFunctionsType, IngredientFilterMenuPropsType>(
-  ({ control, register, errors }, ref) => {
+const MenuCreateEditIngredientList = forwardRef<IngredientFilterMenuFunctionsType, IngredientFilterMenuPropsType>(
+  ({ control, register, errors, isEditing }, ref) => {
     const searchIngredientRef = useRef<HTMLInputElement>(null)
     const [foundIngredients, setFoundIngredients] = useState<IngredientType[]>([])
 
@@ -27,11 +31,6 @@ const MenuCreateIngredientList = forwardRef<IngredientFilterMenuFunctionsType, I
       name: 'ingredients',
       rules: { minLength: 1 },
     })
-
-    useEffect(() => {
-      console.log(`DFM_ ln: 32 __ errors`, errors)
-    }, [errors])
-
     useImperativeHandle(
       ref,
       () => ({
@@ -44,6 +43,7 @@ const MenuCreateIngredientList = forwardRef<IngredientFilterMenuFunctionsType, I
       queryKey: ['ingredients'],
       queryFn: getIngredientsWithTags,
     })
+
     const handleKeyUpSearchIngredient = () => {
       const ingredientSearch = searchIngredientRef.current?.value?.toLowerCase()
       if (!ingredientSearch) {
@@ -68,15 +68,28 @@ const MenuCreateIngredientList = forwardRef<IngredientFilterMenuFunctionsType, I
         ingredientQuantity: 0,
         ingredientQuantityType: '',
         _name: name,
+        _id: null,
       })
       setFoundIngredients([])
       if (searchIngredientRef.current) searchIngredientRef.current.value = ''
     }
 
-    const handleRemoveIngredient = (e: SyntheticEvent, ingredientPosition: number) => {
+    const handleRemoveIngredient = async (
+      e: SyntheticEvent,
+      ingredientPosition: number,
+      ingredientMenu: number | null
+    ) => {
       e.preventDefault()
       remove(ingredientPosition)
+      if (isEditing && ingredientMenu) {
+        await deleteMenuIngredients(ingredientMenu)
+        revalidateData('menus')
+      }
     }
+
+    const getIngredientQuantityError = (index: number) => errors.ingredients?.[index]?.ingredientQuantity?.message
+    const getIngredientQuantityTypeError = (index: number) =>
+      errors.ingredients?.[index]?.ingredientQuantityType?.message
 
     return (
       <>
@@ -115,7 +128,10 @@ const MenuCreateIngredientList = forwardRef<IngredientFilterMenuFunctionsType, I
                   }),
                   type: 'number',
                   placeholder: 'Quantity',
+                  min: 0,
+                  step: 0.25,
                 }}
+                error={getIngredientQuantityError(index)}
               />
               <InputText
                 containerClassName='col-span-2'
@@ -124,11 +140,13 @@ const MenuCreateIngredientList = forwardRef<IngredientFilterMenuFunctionsType, I
                     value: ingredient.ingredientQuantityType,
                   }),
                   placeholder: 'Type',
+                  list: _INGREDIENT_QUANTITY_TYPE_DATA_LIST_ID,
                 }}
+                error={getIngredientQuantityTypeError(index)}
               />
               <button
                 className='btn btn-circle btn-outline btn-error w-8 place-self-center'
-                onClick={(e) => handleRemoveIngredient(e, index)}
+                onClick={(e) => handleRemoveIngredient(e, index, ingredient._id)}
               >
                 <svg
                   xmlns='http://www.w3.org/2000/svg'
@@ -154,6 +172,6 @@ const MenuCreateIngredientList = forwardRef<IngredientFilterMenuFunctionsType, I
   }
 )
 
-MenuCreateIngredientList.displayName = 'MenuCreateIngredientListForwardRef'
+MenuCreateEditIngredientList.displayName = 'MenuCreateIngredientListForwardRef'
 
-export default MenuCreateIngredientList
+export default MenuCreateEditIngredientList

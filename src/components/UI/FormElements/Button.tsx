@@ -1,16 +1,10 @@
-import { cva } from 'class-variance-authority'
-import { ButtonHTMLAttributes, forwardRef } from 'react'
+import { cva, VariantProps } from 'class-variance-authority'
+import { ButtonHTMLAttributes } from 'react'
 import { twMerge } from 'tailwind-merge'
 
 export enum ButtonActionEnum {
   SAVE = 'save',
   DELETE = 'delete',
-}
-
-type ButtonPropsType = {
-  label: string
-  action: ButtonActionEnum
-  buttonProps: ButtonHTMLAttributes<HTMLButtonElement>
 }
 
 const button = cva(['btn', 'btn-outline'], {
@@ -19,15 +13,23 @@ const button = cva(['btn', 'btn-outline'], {
       save: ['btn-success'],
       delete: ['btn-error'],
     },
+    size: {
+      xs: ['btn-xs'],
+    },
   },
   defaultVariants: {
     action: 'save',
   },
 })
 
-const Button = ({ label, action, buttonProps }: ButtonPropsType) => {
+type ButtonPropsType = VariantProps<typeof button> & {
+  label: string
+  buttonProps: ButtonHTMLAttributes<HTMLButtonElement>
+}
+
+const Button = ({ label, action, buttonProps, size }: ButtonPropsType) => {
   return (
-    <button {...buttonProps} className={twMerge(button({ action }))}>
+    <button {...buttonProps} className={twMerge(button({ action, size }))}>
       {label}
     </button>
   )

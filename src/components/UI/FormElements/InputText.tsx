@@ -1,5 +1,4 @@
 import { cva, VariantProps } from 'class-variance-authority'
-import { ClassProp } from 'class-variance-authority/dist/types'
 import { forwardRef, InputHTMLAttributes, useImperativeHandle, useState } from 'react'
 import { twMerge } from 'tailwind-merge'
 
