@@ -1,0 +1,1 @@
+export const _INGREDIENT_QUANTITY_TYPE_DATA_LIST_ID = 'ingredient-quantity-type'

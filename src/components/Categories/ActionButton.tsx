@@ -8,6 +8,7 @@ export type AddButtonPropsType = {
   textButton: string
   buttonPrefixIcon?: string
   children: ReactNode
+  textTitle?: string
   buttonSize?: null | 'xs'
   buttonColor?: 'success' | 'ghost'
   className?: string
@@ -37,6 +38,7 @@ const ActionButton = ({
   buttonSize = null,
   buttonColor = 'success',
   className,
+  textTitle,
 }: AddButtonPropsType) => {
   const dialogModalRef = useRef<HTMLDialogElement>(null)
 
@@ -55,7 +57,7 @@ const ActionButton = ({
             {/* if there is a button in form, it will close the modal */}
             <button className='btn btn-circle btn-ghost btn-sm absolute right-2 top-2'>✕</button>
           </form>
-          <h3 className='text-lg font-bold'>{textButton}</h3>
+          <h3 className='text-lg font-bold'>{textTitle || textButton}</h3>
           {children}
         </div>
       </dialog>

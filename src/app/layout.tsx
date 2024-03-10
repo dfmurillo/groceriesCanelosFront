@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import '@/assets/tailwind.css'
-import TanstackProvider from '@/components/Providers/TanstackProvider'
 import Footer from '@/containers/Footer'
+import TanstackProvider from '@/contexts/TanstackProvider'
 
 const inter = Inter({ subsets: ['latin'] })
 

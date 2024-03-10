@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { useFilterContext } from '@/components/Providers/FilterContextProvider'
+import { useFilterContext } from '@/contexts/FilterContextProvider'
 import { CategoryType } from '@/schemas/Category/Category.type'
 import { FilterCategoryType } from './Filter.type'
 
