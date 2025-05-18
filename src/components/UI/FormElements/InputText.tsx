@@ -43,13 +43,17 @@ const InputText = forwardRef<InputTextFunctionsType, InputTextPropsType>(
     )
 
     return (
-      <label className={containerClassName} htmlFor={inputProps.id}>
+      <label data-testid='input-text-label' className={containerClassName} htmlFor={inputProps.id}>
         {labelText && (
           <div className='label'>
             <span className='label-text'>{labelText}</span>
           </div>
         )}
-        <input {...inputProps} className={twMerge(inputTextClasses({ size, className }))} />
+        <input
+          {...inputProps}
+          data-testid='input-text-field'
+          className={twMerge(inputTextClasses({ size, className }))}
+        />
         {errorMessage && (
           <div className='label'>
             <span className='label-text-alt text-red-500'>{errorMessage}</span>

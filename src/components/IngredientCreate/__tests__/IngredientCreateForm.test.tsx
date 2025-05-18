@@ -22,8 +22,6 @@ describe('IngredientCreateForm', () => {
   }
 
   const mockMutate = jest.fn()
-  const mockSetMessage = jest.fn()
-  const mockSetError = jest.fn()
 
   beforeEach(() => {
     jest.clearAllMocks()
@@ -136,7 +134,10 @@ describe('IngredientCreateForm', () => {
     })
 
     // Call onSuccess manually to simulate the mutation success
-    const mutation = (useMutation as jest.Mock).mock.results[0].value
+    const mutation = (useMutation as jest.Mock).mock.results[0]?.value
+    if (!mutation) {
+      throw new Error('Mutation result is undefined')
+    }
     mutation.onSuccess(mockNewIngredient)
 
     expect(mockQueryClient.setQueryData).toHaveBeenCalledWith(['ingredients'], expect.any(Function))
