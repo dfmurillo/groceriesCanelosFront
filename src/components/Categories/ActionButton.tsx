@@ -51,13 +51,15 @@ const ActionButton = ({
       <button onClick={handleModalOpen} className={twMerge(buttonAction({ buttonColor, buttonSize, className }))}>
         {buttonPrefixIcon} {textButton}
       </button>
-      <dialog ref={dialogModalRef} className='modal modal-bottom sm:modal-middle'>
+      <dialog ref={dialogModalRef} className='modal modal-bottom sm:modal-middle' role='dialog'>
         <div className='modal-box'>
           <form method='dialog'>
             {/* if there is a button in form, it will close the modal */}
             <button className='btn btn-circle btn-ghost btn-sm absolute right-2 top-2'>✕</button>
           </form>
-          <h3 className='text-lg font-bold'>{textTitle || textButton}</h3>
+          <h3 data-testid='modal-title' className='text-lg font-bold'>
+            {textTitle || textButton}
+          </h3>
           {children}
         </div>
       </dialog>

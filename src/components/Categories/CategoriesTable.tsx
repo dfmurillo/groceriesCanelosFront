@@ -16,7 +16,7 @@ const CategoriesTable = () => {
     queryFn: getCategoriesTags,
   })
 
-  if (isLoading) return <span className='loading loading-dots loading-md'></span>
+  if (isLoading) return <span role='status' className='loading loading-dots loading-md'></span>
   if (error) return <AlertBanner alertType={AlertBannerTypeEnum.ERROR} message={error.message} />
 
   return (

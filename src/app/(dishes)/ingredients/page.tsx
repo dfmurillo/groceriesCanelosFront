@@ -11,13 +11,19 @@ export const metadata: Metadata = {
 const IngredientsPage = () => {
   return (
     <>
-      <section className='border-1 m-2 w-full rounded border-solid border-black bg-slate-50 p-3 shadow-md'>
+      <section
+        data-testid='filters-section'
+        className='border-1 m-2 w-full rounded border-solid border-black bg-slate-50 p-3 shadow-md'
+      >
         <h2 className='text-lg font-bold'>Filters</h2>
         <div className='flex flex-row flex-wrap'>
           <CategoryFilter />
         </div>
       </section>
-      <section className='border-1 m-2 w-full rounded border-solid border-black bg-slate-50 p-3 shadow-md'>
+      <section
+        data-testid='ingredients-section'
+        className='border-1 m-2 w-full rounded border-solid border-black bg-slate-50 p-3 shadow-md'
+      >
         <ActionButton textButton='New Ingredient' buttonPrefixIcon='+'>
           <IngredientCreateForm />
         </ActionButton>
